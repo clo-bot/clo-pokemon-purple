@@ -90,12 +90,32 @@ h2 {
 }
 
 .pokemon-moves-selector-grid {
-  width: 950px;
-}
-.grid-your-pokemon-moves {
-  text-align: center;
-  width: 85px;
-  border: 1px solid black;
+  /* width: 950px; */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   display: grid;
-  padding: 3px;
+}
+
+.grid-your-pokemon-moves {
+  /* text-align: center; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 175px;
+  border: 1px solid black;
+  /* padding: 3px; */
+}
+
+.grid-your-pokemon-moves:hover {
+  background-color: #D3D3D3;
+  color: white;
+}
+
+.selected-move {
+  background-color: #718096;;
+  color: #ffffff;
+  opacity: .5;
+}
+
+center img {
+  width: 200px;
 }

@@ -56,15 +56,15 @@ $(function () {
   }
 
   function displayYourPokemonMoves(pokemon) {
-    // for (i = 0; i < pokemon.moves.length; i++) { 
-    //   console.log(pokemon.moves[i].move.name); 
+    // for (i = 0; i < pokemon.moves.length; i++) {
+    //   console.log(pokemon.moves[i].move.name);
     // }
     const moves = pokemon.moves.map((move) => {
       return move.move.name
     })
     moves.forEach((move) => {
     $('.pokemon-moves-selector-grid').append(
-      `<br><div class="grid-your-pokemon-moves" id="${move}"><p>${move}</p>
+      `<div class="grid-your-pokemon-moves" id="${move}"><p>${move}</p>
       </div>
       `)
     })
@@ -78,4 +78,18 @@ $(function () {
   function disableBtn() {
     $(".select-button").toggle()
   }
+
+  /*
+    listen for click event on pokemon moves
+    we are using .on() method and a attaching it to an element that
+    will "always" be on the page (body) due to the fact the moves grid is not displayed when the application first loads
+  */
+  $('body').on('click', '.grid-your-pokemon-moves', (event) => {
+    // store the id of the selected move in a variable
+    const selectedMove = $(event.currentTarget).attr('id')
+    console.log(`move selected: ${selectedMove}`)
+
+    // toggleClass that changes the background color of the selected move
+    $(event.currentTarget).toggleClass('selected-move')
+  })
 })
