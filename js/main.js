@@ -71,25 +71,40 @@ $(function () {
     })
     moves.forEach((move) => {
       $('.pokemon-moves-selector-grid').append(
-        `<div class="grid-your-pokemon-moves" id="${move}"><p>${move}</p>
+        `<div class="grid-your-pokemon-moves" id="${move}">
+          <button class="move-button"><p>${move}</p></button>
         </div>
         `)
     })
   }
 
-  $('body').on('click', '.grid-your-pokemon-moves', (event) => {
+  $('body').on('click', '.grid-your-pokemon-moves button', (event) => {
     // store the id of the selected move in a variable
-    const selectedMove = $(event.currentTarget).attr('id')
+    const selectedMove = $(event.currentTarget).parent().attr('id')
     console.log(`move selected: ${selectedMove}`)
-    yourPokemonMovesArray.push(`${selectedMove}`)
+    yourPokemonMovesArray.push(selectedMove)
     console.log(yourPokemonMovesArray)
 
     // toggleClass that changes the background color of the selected move
     $(event.currentTarget).toggleClass('selected-move')
      if(yourPokemonMovesArray.length === 4){
+       console.log("inside if statement")
         // return yourPokemonMovesArray.filter((move, index) => 
         // move.indexOf(move) !== index);
-        $('body').unbind();
+        // $('body').unbind();
+        $(".grid-your-pokemon-moves").each(function (index)  {
+          // console.log($(this)[0].id)
+          // check if id of current element ($(this)) matches id that is in
+          // selected moves array
+          const moveId = $(this)[0].id
+          if (!yourPokemonMovesArray.includes(moveId)) {
+            $(this).find("button").attr("disabled", true)
+          } else {
+            console.log("enabled")
+            $(this).find("button").attr("disabled", false)
+
+          }
+        })
        }
       console.log(yourPokemonMovesArray)
     })

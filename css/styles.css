@@ -112,8 +112,7 @@ h2 {
   display: grid;
 }
 .grid-your-pokemon-moves {
-  text-align: center;
-   width: 85px;
+   text-align: center;
    display: flex;
    justify-content: center;
    align-items: center;
@@ -146,3 +145,13 @@ h2 {
  .disabled {
    display: none !important
  }
+
+ .move-button {
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 175px;
+  height: 100%;
+ }
+ 
