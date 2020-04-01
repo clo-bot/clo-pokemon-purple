@@ -1,8 +1,11 @@
 $(function () {
   disableStartBtn();
-  let randomPokemon;
   let yourPokemon;
   let yourPokemonMovesArray = []
+  let yourPokemonMoves;
+  let randomPokemonData;
+  let yourPokemonHP;
+  let randomPokemonHP;
   $(".message").text("Choose Your Pokemon!")
   
   async function asyncForEach(array, callback) {
@@ -40,24 +43,25 @@ $(function () {
   })
   async function getSpecificPokemon(pokemon) {
     const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
-    console.log(response.data);
-    displayYourPokemon(response.data)
-    displayYourPokemonMoves(response.data)
+    // console.log(response.data);
+    yourPokemon = response.data
+    displayYourPokemon(response.data);
+    displayYourPokemonMoves(response.data);
+    getYourPokemonStats(response.data);
     enableStartBtn();
   }
   $(".select-button").click((event) => {
-    console.log("selecting pokemon")
+    // console.log("selecting pokemon")
     getAllPokemon();
     disableSelectBtn();
 
   })
   function displayYourPokemon(pokemon) {
     $('.pokemon-selector-grid').html("")
-    $(".message").html(`<h1> You picked <font color="#0000e5">${pokemon.species.name}
-    </font>!</h1>`)
-    $("#your-pokemon").html(`
-    <div class="your-pokemon-display">
-      <center><img src="${pokemon.sprites.front_default}"></center>
+    $("#your-pokemon").html(`<div class="your-pokemon-display">
+    <h1>You picked <font color="#0000e5">${pokemon.species.name}
+    </font>!</h1><p>
+      <center><img src="${pokemon.sprites.front_default}"></center></p>
       <p><h2>Choose 4 Moves for Your Pokemon!</h2></p></div>`)
 
   }
@@ -66,7 +70,10 @@ $(function () {
     // for (i = 0; i < pokemon.moves.length; i++) { 
     //   console.log(pokemon.moves[i].move.name); 
     // }
-    const moves = pokemon.moves.map((move) => {
+    yourPokemonMoves = pokemon.moves.map((move) => {
+      return move.move
+    })
+    moves = pokemon.moves.map((move) => {
       return move.move.name
     })
     moves.forEach((move) => {
@@ -82,53 +89,98 @@ $(function () {
     // store the id of the selected move in a variable
     const selectedMove = $(event.currentTarget).parent().attr('id')
     console.log(`move selected: ${selectedMove}`)
-    yourPokemonMovesArray.push(selectedMove)
-    console.log(yourPokemonMovesArray)
-
     // toggleClass that changes the background color of the selected move
     $(event.currentTarget).toggleClass('selected-move')
-     if(yourPokemonMovesArray.length === 4){
-       console.log("inside if statement")
-        // return yourPokemonMovesArray.filter((move, index) => 
-        // move.indexOf(move) !== index);
-        // $('body').unbind();
-        $(".grid-your-pokemon-moves").each(function (index)  {
-          // console.log($(this)[0].id)
-          // check if id of current element ($(this)) matches id that is in
-          // selected moves array
-          const moveId = $(this)[0].id
-          if (!yourPokemonMovesArray.includes(moveId)) {
-            $(this).find("button").attr("disabled", true)
-          } else {
-            console.log("enabled")
-            $(this).find("button").attr("disabled", false)
-
-          }
-        })
-       }
-      console.log(yourPokemonMovesArray)
+    // function that adds or removes pokemon move from yourPokemonMovesArray
+    addOrRemoveMove(selectedMove)
+    console.log(yourPokemonMovesArray)
+    // yourPokemonMovesArray.push(selectedMove)
+    // iterate through all of the moves elements on the page
+    $(".grid-your-pokemon-moves").each(function (index)  {
+      const moveId = $(this)[0].id
+      if (yourPokemonMovesArray.length >= 4) {
+        // number of selected moves is greater than or equal to 4
+        // disable all of the move elements that are not in the selected moves array
+        if (!yourPokemonMovesArray.includes(moveId)) {
+          $(this).find("button").attr("disabled", true)
+        }
+      } else {
+        // number of selected moves is less 4
+        // enable all of the move elements so any of them moves can be selected
+        $(this).find("button").attr("disabled", false)
+      }
     })
+  })
+
+  function addOrRemoveMove(selectedMove) {
+    if (yourPokemonMovesArray.includes(selectedMove)) {
+      // this move already exists inside of the selected moves array so remove it
+      // find the index and use splice() to remove element from the array
+      const selectedMoveIndex = yourPokemonMovesArray.findIndex((move) => {
+        return move === selectedMove
+      })
+      // remove the move from the array using the index
+      yourPokemonMovesArray.splice(selectedMoveIndex, 1)
+    } else {
+      // this move does not exist inside the selected moves array, so add it
+      yourPokemonMovesArray.push(selectedMove)
+    }
+  }
  
   $(".start-button").click((event) => {
-      console.log("BEGIN BATTLE!")
+      // console.log("BEGIN BATTLE!")
       startBattleScreen();
   
     })
   async function generatePokemonArray(pokemon) {
-    let randomPokemon = pokemon[Math.floor(Math.random() * 151)]
-    console.log(randomPokemon)
+    randomPokemon = pokemon[Math.floor(Math.random() * 151)]
+    getRandomPokemonData(randomPokemon);
   }
+
+  async function getRandomPokemonData (randomPokemon) {
+    console.log(randomPokemon)
+    try {
+      const response = await axios.get(`${randomPokemon.url}`)
+          return randomPokemonData = response.data
+      }
+    catch (error) {
+      console.log(error)
+    }
+    generateRandomPokemonMove (response.data.moves)
+    getRandomPokemonStats(response.data)
+  }
+
+  function getYourPokemonStats(stats) {
+    yourPokemonHP = stats.stats.find(function(stat) {
+      return stat.stat.name === "hp"
+    })
+       console.log(`This is your HP: ${yourPokemonHP.base_stat}`)
+    }
+
+    function getRandomPokemonStats(stats) {
+      randomPokemonHP = stats.stats.find(function(stat) {
+        return stat.stat.name === "hp"
+      })
+         console.log(`This is random Pokemon's HP: ${randomPokemonHP.base_stat}`)
+      }
+
 
   function startBattleScreen() {
     disableStartBtn();
     $('.grid-pokemon-display').html("");
     $(".pokemon-moves-selector-grid").html("");
-    $("#your-Pokemon").html("");
-    console.log(yourPokemon)
-    console.log(randomPokemon)
-    console.log(yourPokemonMovesArray)
-    $(".message").html(`${randomPokemon} vs. ${yourPokemon}`); 
+    $(".your-pokemon-display").html("");
+    $(".pokemon-battle-screen").html(`<div class="pokemon-battle-screen">
+      <center><img src="${yourPokemon.sprites.front_default}" width="200">
+      <img src="${randomPokemonData.sprites.front_default}" witdh="200">
+      </center>
+     </div>`);
+    $(".message").html(`<font color="#0000e5">${yourPokemon.name}</font> vs ${randomPokemon.name}!`);
+    $(".pokemon-order").html(`<p><font color="#0000e5">${yourPokemon.name}</font> go first!`); 
+    
+
     moveButtons();
+    
 
   }
 
@@ -138,9 +190,43 @@ $(function () {
     $('.move-2').text(yourPokemonMovesArray[1]);
     $('.move-3').text(yourPokemonMovesArray[2]);
     $('.move-4').text(yourPokemonMovesArray[3]);
-
     
   }
+  
+  for (let i = 0; i < 4; i++) {
+    $(`.move-${i + 1}`).click(() => {
+      // console.log(yourPokemonMoves)
+      const yourPokemonMove = yourPokemonMoves.find(function(yourPokemonMove) {
+         return yourPokemonMove.name === yourPokemonMovesArray[i];
+      })
+      // console.log(yourPokemonMove1.url)
+      getyourPokemonMoveData(yourPokemonMove.url);
+  })
+  }
+ 
+
+  async function getyourPokemonMoveData (yourPokemonMove) {
+    console.log(yourPokemonMove)
+    try {
+      const response = await axios.get(`${yourPokemonMove}`)
+      console.log(response.data.power)
+          return response.data.power
+      }
+    catch (error) {
+      console.log(error)
+    }
+  }
+
+  async function generateRandomPokemonMove (moves) {
+    console.log(randomPokemonMove)
+    let randomPokemonMove = moves[Math.floor(Math.random() * moves.length)]
+    
+  }
+  
+  // function battleMoves(selectedPokemonMoves) {
+  //   console.log(selectedPokemonMoves)
+  //   return selectedPokemonMoves 
+  // }
 
   function disableSelectBtn() {
     $(".select-button").toggle()
@@ -162,7 +248,7 @@ $(function () {
     $(".move-3").toggleClass("disabled");    
     $(".move-4").toggleClass("disabled");    
 
-
   }
+
 
 })

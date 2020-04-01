@@ -106,6 +106,10 @@ h2 {
   width: 950px;
 }
 
+.pokemon-battle-screen {
+  width: 950px;
+}
+
 .pokemon-moves-selector-grid {
   width: 950px;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -153,5 +157,11 @@ h2 {
   align-items: center;
   width: 175px;
   height: 100%;
+  font-size: 16px;
  }
  
+ .pokemon-order {
+  font-family: 'Poppins', sans-serif;
+  font-size: 40px;
+  text-align: center;
+ }
