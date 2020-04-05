@@ -14,36 +14,52 @@
   <body>
     <div class="container">
       <h1 class="title">Pokémon Battle!</h1>
-      <div class="versus"></div>
-      <div class="pokemon-battle-screen"></div>
-      <div class="your-pokemon-display"></div>
-      <div class="random-pokemon-display"></div>
-
-
-      <div class="select-message"></div>
-      <div class="pokemon-order"></div>
-      <div class="move-message"></div>
+      <div class="main-image"></div>
+      <div class="versus"></div>    
       
+      <div class="select-message"></div>
+    
+      <div class="move-message disabled"></div>
+      
+      <!-- Select your Pokemon-->
       <div class="pokemon-selector-grid"></div>
       <div class="your-pokemon-display"></div>
       <div id="your-pokemon"></div>
       
+      <!-- Select your moves -->
       <div class="pokemon-moves-selector-grid"></div>
       
+      <div class="pokemon-arena">
+        <div class="opponent-arena-container"></div>
+        <div class="your-arena-container"></div>
+      </div>
 
+      <!-- My Pokemon's Battle Options-->
+      <div class="pokemon-battle-screen disabled"> 
+        <div class="your-battle-display" id="your-turn-message"></div>
+        <div class="your-battle-display">
+          <div class="your-moves">
+            <button id="move-button" class="battle-option move-1" type="submit"></button>
+            <button id="move-button" class="battle-option move-2" type="submit"></button>
+            <button id="move-button" class="battle-option move-3" type="submit"></button>
+            <button id="move-button" class="battle-option move-4" type="submit"></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Selection Buttons -->
       <button id="button" class="select-button" type="submit">SELECT</button>
       <button id="button" class="start-button disabled" type="submit">START GAME!</button>
       <button id="button" class="next-button disabled" type="submit">Next</button>
+      <button id="button" class="start-over-button disabled" type="submit">START OVER</button>
 
-        
-      <button id="move-button" class="move-1 disabled" type="submit"></button>
-      <button id="move-button" class="move-2 disabled" type="submit"></button>
-      <button id="move-button" class="move-3 disabled" type="submit"></button>
-      <button id="move-button" class="move-4 disabled" type="submit"></button>
+      <!--Win Container-->
+      <div class="win-container">
+        <span class="win-message"></span>
+        <div class="win-image"></div>
+      </div>
 
-      <div class="win-message"></div>
-
-    </div>
+    </div> <!--close container-->
 
 
     <script

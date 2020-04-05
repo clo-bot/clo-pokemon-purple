@@ -1,8 +1,3 @@
-body {
-  font-family: sans-serif;
-  font-size: 16px;
-}
-
 .title {
   font-family: 'Press Start 2P', cursive;
   font-size: 50px;
@@ -10,11 +5,35 @@ body {
   text-align: center;
 }
 
+.main-image {
+  align-items: center;
+  max-width: 70%;
+  max-height: 100%;
+  display: block;
+  position: relative;
+}
+
+#main-pic {
+  max-width: 50%;
+  max-height: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  top: 50%;
+}
+
 h1 {
   font-family: 'Press Start 2P', cursive;
   font-size: 30px;
   font-weight: bold;
   text-align: center;
+}
+
+h2 {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 24px;
+  text-align: center;
+  color: #000000;
 }
 
 .versus {
@@ -31,6 +50,7 @@ h1 {
   text-align: center;
   position: absolute;
   bottom: 150px;
+  width: 100%;
 }
 
 p {
@@ -40,11 +60,11 @@ p {
   text-shadow: 1px 1px 4px #808080;
 }
 
-h2 {
-  font-family: 'Poppins', sans-serif;
+h3 {
+  font-family: 'Press Start 2P', cursive;
   font-size: 30px;
-  font-weight: bold;
   text-align: center;
+  color: black;
 }
 
 .container {
@@ -99,6 +119,26 @@ h2 {
   bottom: 50px;
 }
 
+.start-over-button {
+  text-align: center;
+  display: inline-block;
+  text-decoration: none;
+	margin: 5px;
+  font-weight: bold;
+  font-size: 40px;
+  padding: 10px 0 10px 10px ;
+  width: 100px;
+  background-color: lightgray;
+  text-shadow: -1px -1px black, 1px 1px white;
+  color: gray;
+	border-radius: 7px;
+  box-shadow: 0 .2em gray; 
+  cursor: pointer;
+  transition-duration: 0.4s;
+  position: absolute;
+  bottom: 50px;
+}
+
 .pokemon-selector-grid {
   width: 950px;
 }
@@ -129,23 +169,45 @@ h2 {
 }
 
 .pokemon-battle-screen {
-  width: 950px;
+  width: 100%;
+  display: flex;
+}
+.pokemon-arena{
+  width: 650px;
+}
+
+.your-battle-display {
+  width: 50%;
+  display: flex;
+}
+
+#your-turn-message {
+  font-family: 'Press Start 2p';
+  font-size: 36px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  line-height: 50px;
+}
+
+.your-moves {
+  width: 100%;
 }
 
 .pokemon-moves-selector-grid {
   width: 950px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   display: grid;
+  grid-gap: 8px;
+  background-color: lightblue;
 }
 
 .grid-your-pokemon-moves {
-   text-align: center;
    display: flex;
-   justify-content: center;
-   align-items: center;
    width: 175px;
-   border: 1px solid black;
+   border-radius: 16px;
    display: grid;
+   margin: 10px;
   }
 
 .selected-move {
@@ -159,30 +221,21 @@ h2 {
   color: #A9A9A9;
 }
 
-#move-button {
-  background-color: #000000;
+.move-button {
   border: none;
-  color: white;
-  padding: 16px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  height: 100%;
   font-size: 16px;
-  margin: 5px auto;
-  transition-duration: 0.4s;
-  cursor: pointer;
-  width: auto;
-}
-
-#move-button:hover {
-  background-color: #FF0000;
-  color: white;
+  width: 200px;
 }
 
 .move-button:hover {
   background-color: #666666;
   color: #ffffff;
+  box-shadow: 3px 3px 5px grey;
 }
+
 .move-button:disabled {
   background-color: #718096;;
   color: #ffffff;
@@ -195,6 +248,7 @@ center img {
 
 .shake {
   animation: shake 0.7s;
+  animation-iteration-count: 3;
 }
 
 @keyframes shake {
@@ -215,16 +269,6 @@ center img {
    display: none !important
 }
 
-.move-button {
-  border: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 175px;
-  height: 100%;
-  font-size: 16px;
-}
-
 .next-button {
   border: none;
   display: flex;
@@ -234,34 +278,123 @@ center img {
   height: 100%;
   font-size: 16px;
 }
- 
-.pokemon-order {
-  font-family: 'Poppins', sans-serif;
-  font-size: 40px;
-  text-align: center;
-}
-
-.your-pokemon-hp-display {
-  font-family: 'Poppins', sans-serif;
-  font-size: 40px;
-  text-align: center;
-}
-
-.random-pokemon-hp-display {
-  font-family: 'Poppins', sans-serif;
-  font-size: 40px;
-  text-align: center;
-}
 
 .move-message {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Press Start 2P', cursive;
   font-size: 20px;
+  color: white;
+  background: gray;
   text-align: center;
+  align-items: center;
+  padding: 25px;
+  margin: 30px 0 0 0;
+}
+
+.battle-option{
+  background-color: #5DADE2;
+  border: 5px solid #ffffff;
+  box-shadow: 0px 0px 0px 8px #1A5276;;
+  padding: 16px 32px;
+  text-align: center;
+  font-size: 40px;
+  font-family: 'VT323', monospace;
+  text-decoration: none;
+  display: inline-block;
+  width: 45%;
+  margin: 5px;
+  cursor: pointer;
+  border-radius: 16px;
+  vertical-align: top;
+}
+
+.battle-option:hover {
+  background-color: #21618C;
+  color: white;
+  box-shadow: 
+}
+
+.opponent-arena-container {
+  display: flex;
+  width: 100%;
+  margin: 0px;
+}
+
+.opponent-stats {
+  text-align: center;
+  width: 100%;
+  display: flex;
+  font-size: 50px;
+  font-family: 'VT323', monospace;
+  color: #C0392B;
+  font-weight: bold;
+  align-items: top;
+  flex-direction: column;
+}
+
+.opponent-pokemon-div {
+  width: 100%;
+  text-align: right;
+  margin: 0px;
+}
+
+.opponent-sprite {
+  width:210px;
+}
+
+.your-arena-container {
+  display: flex;
+  margin: 0px;
+}
+
+.your-stats {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  font-size: 50px;
+  font-family: 'VT323', monospace;
+  color: #C0392B;
+  font-weight: bold;
+  flex-direction: column;
+}
+
+.your-sprite {
+  width: 230px;
+}
+
+.win-container {
+  display: inline-flex;
+  width: 90%;
+  margin: 50px;
 }
 
 .win-message {
   font-family: 'Press Start 2P', cursive;
-  font-size: 30px;
+  font-size: 20px;
   font-weight: bold;
-  line-height: 1.8;
+  display: flex;
+  align-items: center;  
+  border-radius: 16px;
+  background-color: yellow;
+  height: 200px;
+  margin: 50px;
+  line-height: 40px;
+}
+
+.win-image {
+  display: flex;
+  margin: 0px;
+  max-height: 200px;
+  width: 50%;
+  justify-content: center;
+}
+
+#sadpika {
+  object-fit: cover;
+  height: 170%;
+}
+
+#squirtle {
+  object-fit: cover;
+  height: 170%;
 }
