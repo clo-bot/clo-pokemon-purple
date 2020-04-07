@@ -19,12 +19,15 @@ $(function () {
   $(".main-image").html(`<img id="main-pic" src="images/pokeball.gif">`)
   $(".win-container").toggleClass("disabled", true)
   
+
+  //make sure the pokemon load in order and not randomly
   async function asyncForEach(array, callback) {
     for (let index = 0; index < array.length; index++) {
       await callback(array[index], index, array);
     }
   }
 
+  //only get the OG151
   async function getAllPokemon() {
     try {
       const url = "https://pokeapi.co/api/v2/pokemon?limit=151"
@@ -52,6 +55,7 @@ $(function () {
     disableSelectBtn();
   })
 
+  // display all 151 pokemon from API
   function displayPokemon(pokemon) {
     $('.pokemon-selector-grid').append(
       `<div class="grid-pokemon-display" id="${pokemon.species.name}"><p>${pokemon.species.name}</p>
@@ -59,6 +63,7 @@ $(function () {
     )
   }
 
+  //user selects a pokemon
   $('.pokemon-selector-grid').click(event => {
     if ($(".pokemon-selector-grid").children().length != 151) {
       window.alert("Please wait for all Pokemon to load before selecting.")
@@ -68,6 +73,7 @@ $(function () {
       }  
   })
 
+  //get data of the pokemon user selecfted from api
   async function getSpecificPokemon(pokemon) {
     const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
     // console.log(response.data);
@@ -77,6 +83,7 @@ $(function () {
     assignPokemonStats(response.data.stats, "me");
   }
 
+  // displays the user selected pokemon
   function displayYourPokemon(pokemon) {
     scrollUp();
     $('.pokemon-selector-grid').html("")
@@ -85,6 +92,7 @@ $(function () {
       <p><h2>Choose 4 Moves for Your Pokemon!</h2></p>`)
   }
 
+  // displays all the moves of the user selected pokemon
   function displayYourPokemonMoves(pokemon) {
     // for (i = 0; i < pokemon.moves.length; i++) { 
     //   console.log(pokemon.moves[i].move.name); 
@@ -155,11 +163,13 @@ $(function () {
       scrollUp();
   })
 
+  // "computer" picks random pokemon 
   async function generatePokemonArray(pokemon) {
     randomPokemon = pokemon[Math.floor(Math.random() * 151)]
     getRandomPokemonData(randomPokemon);
   }
 
+  // get the data of the random pokemon
   async function getRandomPokemonData (randomPokemon) {
     console.log(randomPokemon)
     try {
@@ -173,6 +183,7 @@ $(function () {
     }
   }
 
+  // get the stats of both pokemon
   function assignPokemonStats(stats, player) {
     // console.log(stats)
     stats.forEach(function(statObject) {
@@ -236,6 +247,7 @@ $(function () {
     yourMoves();
   }
 
+  //display the user's four selected moves
   function moveButtons() {
     enableMoveBtn();
     $('.move-1').text(yourPokemonMovesArray[0]);
@@ -245,6 +257,7 @@ $(function () {
     
   }
   
+  // User's Turn
   async function yourMoves() {
     for (let i = 0; i < 4; i++) {
       $(`.move-${i + 1}`).click(async() => {
@@ -291,6 +304,7 @@ $(function () {
   })
 
 
+  // "computer's" turn
   function generateRandomPokemonMove() {
     let moves = randomPokemonAllMoves
     randomPokemonMoveName = moves[Math.floor(Math.random() * moves.length)]
@@ -340,6 +354,7 @@ $(function () {
   }
 
 
+  // calculate each attack's damage
   function attackDamage (attackersAttack, attackersMovePower, defendersDefense, sameTypeAttackBonus = 1, 
     typeModifier = 10, pokemonLevel = 60) {
       const randomNumber = Math.floor(Math.random() * (255 - 217) + 217)
